@@ -1,0 +1,77 @@
+BlogBundle\Entity\Entry:
+    type: entity
+    table: entries
+    indexes:
+        user_id:
+            columns:
+                - user_id
+                - category_id
+        fk_entries_categories:
+            columns:
+                - category_id
+        IDX_2DF8B3C5A76ED395:
+            columns:
+                - user_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        title:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        content:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+        status:
+            type: string
+            nullable: false
+            length: 20
+            options:
+                fixed: false
+        image:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+    manyToOne:
+        category:
+            targetEntity: Category
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: entry
+            joinColumns:
+                category_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        user:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+
+    oneToMany:
+        entryTag:
+            targetEntity: BlogBundle\Entity\EntryTag
+            mappedBy: entry
+            cascade:  ["persist"]
+
+    lifecycleCallbacks: {  }

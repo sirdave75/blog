@@ -1,0 +1,29 @@
+Create a Symfony 3 project with PhpStorm
+---------------------------------------------------------------------------------------------------
+1.Go to File -> Settings -> Plugins (or PhpStorm -> Preferences -> Plugins if you're on a mac)
+2.Install Symfony2 Plugin, Twig Support and YAML through the "Browse repositories..." menu
+3.If you use the PhpStorm 9 EAP version you also need the "Framework MVC Structure Support" plugin from the "Install JetBrains plugin" menu
+4.Restart PhpStorm
+5.Go to File -> Settings -> Symfony2 Plugin
+6.Check Enable Plugin for this Project
+7.Now go to Directories under Project Settings and exclude app/cache and app/logs. This helps with performance problems in PhpStorm
+8.Still in the settings page, go to PHP -> Framework Integration
+9.Check Enable framework integration and change Autodetect to Symfony2
+10.Browse to web in the file tree and set Element to web root directory
+11.Set the element for vendor to vendor
+12.Set app to application configuration directory
+13.Set src to project code directory
+14.Restart PhpStorm (Its starting to look like firefox)
+15.Click on View -> Tool Windows -> Framework
+
+Integrating the Symfony Console
+-----------------------------------------------------------------------------------------------------
+It is also possible to integrate the symfony console with PhpStorm (<project root>/app/console). This enables help and completion for the symfony commands (build in and your own) and saves you from typing php app/console do:something every time.
+
+1. Go to your project settings/preferences -> Tools -> Command Line Tool Support
+2. Click the green plus button and set the "Choose tool" menu to "Symfony" and make sure the visibility is set to "project" (since the app/console script is specific for one symfony installation)
+3. Then for "Path to Symfony" choose <project root>/bin/console in the filebrowser
+4. Make sure a valid PHP executable is chosen in the "Path to PHP executable" field.
+5. Press ok a few times to save everything. Now you have console integration.
+
+To use this integration go in the main menubar to Tools -> Run Command..., A new tool window should appear. The alias for php app/console is now s so you can type s doctrine:create:database for example to run a command.

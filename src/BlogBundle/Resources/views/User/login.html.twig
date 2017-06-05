@@ -1,0 +1,68 @@
+{% extends "BlogBundle::layout.html.twig" %}
+{% block content%}
+    {% if app.user != null %}
+        {{ app.user.name }}
+    {% endif %}
+
+    {% if is_granted('ROLE_USER') %}
+        <strong>Estas logeado como usuario normal</strong>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <strong>Estas logeado como el PUTO AMO</strong>
+    {% endif %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>Identifícate</h2>
+                <hr>
+                <form action="{{ path("login_check") }}" method="post">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label>Email:</label>
+                                <input type="email" id="username" name="_username" value="{{ lastUserName }}" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label>Password:</label>
+                                <input type="password" id="password" name="_password" value="" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <input type="submit" value="Entrar" class="btn btn-success">
+                                <input type="hidden" value="/login" name="_target_path">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="col-sm-6">
+                <h2>Regístrate</h2>
+                <hr>
+                {{ form_start(form,{'action':'#' , 'method':'POST', 'name':'form-registro'}) }}
+                {{ form_end(form) }}
+
+                <hr>
+                {% set alert_class = "alert-success" %}
+                {% for class_alert in app.session.flashbag().get('class_alert') %}
+                    {% if class_alert == "danger" %}
+                        {% set alert_class = "alert-danger" %}
+                    {% endif %}
+                        {% for message in app.session.flashbag().get('status') %}
+                            <div class="alert {{ alert_class }}">{{ message }}</div>
+                        {% endfor %}
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

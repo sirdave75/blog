@@ -1,0 +1,57 @@
+BlogBundle\Entity\User:
+    type: entity
+    table: users
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        role:
+            type: string
+            nullable: false
+            length: 20
+            options:
+                fixed: false
+        name:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        surname:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        email:
+            type: string
+            nullable: false
+            length: 255
+            unique: true
+            options:
+                fixed: false
+        password:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        imagen:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        activo:
+            type: string
+            nullable: false
+            length: 1
+            options:
+                fixed: true
+    lifecycleCallbacks: {  }
