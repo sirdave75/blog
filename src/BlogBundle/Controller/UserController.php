@@ -21,16 +21,19 @@ class UserController extends Controller
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUserName = $authenticationUtils->getLastUsername();
         $user = new User();
+
         //creo el formulario
         $form = $this->createForm(UserType::class, $user);
         //paso los vaalores
         $form->handleRequest($request);
+
         //valido
         if($form->isSubmitted()){
             if($form->isValid()){
                 $em = $this->getDoctrine()->getManager();
                 $user_repo = $em->getRepository("BlogBundle:User");
                 $user= $user_repo->findOneBy(["email"=>$form->get("email")->getData()]);
+
                 if(count($user)==0) {
                     $user = new User();
                     $user->setName($form->get("name")->getData());
@@ -40,6 +43,7 @@ class UserController extends Controller
                     $factory = $this->get("security.encoder_factory");
                     $encoder = $factory->getEncoder($user);
                     $password = $encoder->encodePassword($form->get("password")->getData(), $user->getSalt());
+
                     $user->setPassword($password);
                     $user->setRole("ROLE_USER");
                     $user->setImagen("");

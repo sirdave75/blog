@@ -11,3 +11,16 @@ logout:
 blog_homepage:
     path:     /
     defaults: { _controller: BlogBundle:Default:index }
+
+blog_add_tag:
+    path:     /tags/add
+    defaults: { _controller: BlogBundle:Tag:add}
+
+blog_index_tag:
+    path:     /tags
+    defaults: { _controller: BlogBundle:Tag:index}
+
+blog_delete_tag:
+    path:     /tags/delete/{id}
+    defaults: { _controller: BlogBundle:Tag:delete}
+
