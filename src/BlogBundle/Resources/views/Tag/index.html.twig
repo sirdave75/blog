@@ -1,0 +1,52 @@
+{% extends "BlogBundle::layout.html.twig" %}
+{% block content %}
+<div class="container">
+    <h2>Listado de etiquetas</h2>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6">
+            <a href="{{ path("blog_add_tag") }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Añadir etiqueta</a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6">
+            {% set alert_class = "alert-success" %}
+            {% for class_alert in app.session.flashbag().get('class_alert') %}
+                {% if class_alert == "danger" %}
+                    {% set alert_class = "alert-danger" %}
+                {% endif %}
+                {% for message in app.session.flashbag().get('status') %}
+                    <div class="alert {{ alert_class }}">{{ message }}</div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+        {%  for tag in tags %}
+            <tr>
+                <td>
+                    {{ tag.name }}
+                </td>
+                <td>
+                    {{ tag.description }}
+                </td>
+                <td><a href="{{ path("blog_delete_tag", {"id":tag.id}) }}" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Eliminar</a> </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+</div>
+
+{% endblock %}
