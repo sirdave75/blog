@@ -89,5 +89,51 @@ class TagController extends Controller
             return $this->redirectToRoute("blog_index_tag");
         }
 
-}
+    }
+    public function editAction(Request $request,$id){
+        $em = $this->getDoctrine()->getManager();
+        $tag_repo = $em->getRepository("BlogBundle:Tag");
+        $tag = $tag_repo->find($id);
+
+        $form = $this->createForm(TagType::class,$tag);
+        $form->handleRequest($request);//recogemos lo que llega del formulario
+
+        if($form->isSubmitted()){
+            if($form->isValid()){
+
+                $tag->setName($form->get("name")->getData());
+                $tag->setDescription($form->get("description")->getData());
+
+                $em->persist($tag);
+
+                $flush  = $em->flush();
+
+                if($flush == null){
+                    $status = "La Etiqueta se ha actualizado correctamente";
+                    $class_alert = "success";
+                }
+                else{
+                    $status = "La Etiqueta no se ha actualizado correctamente";
+                    $class_alert = "danger";
+                }
+
+
+            }
+            else{
+                $status = "La Etiqueta no se ha actualizado correctamente, porque el formulario no es válido";
+                $class_alert = "danger";
+            }
+
+            //mensajes de respuesta
+            $this->session->getFlashBag()->add("status",$status);
+            $this->session->getFlashBag()->add("class_alert",$class_alert);
+            return $this->redirectToRoute("blog_index_tag");
+        }
+
+        return $this->render("BlogBundle:Tag:edit.html.twig",[
+            "form" => $form->createView()
+        ]);
+
+
+    }
 }

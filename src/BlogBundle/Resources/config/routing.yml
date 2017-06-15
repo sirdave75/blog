@@ -16,6 +16,10 @@ blog_add_tag:
     path:     /tags/add
     defaults: { _controller: BlogBundle:Tag:add}
 
+blog_edit_tag:
+    path:     /tags/edit/{id}
+    defaults: { _controller: BlogBundle:Tag:edit}
+
 blog_index_tag:
     path:     /tags
     defaults: { _controller: BlogBundle:Tag:index}

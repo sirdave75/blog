@@ -27,6 +27,7 @@
             <tr>
                 <th>Nombre</th>
                 <th>Descripción</th>
+                <th>Editar</th>
                 <th>Eliminar</th>
             </tr>
         </thead>
@@ -39,6 +40,7 @@
                 <td>
                     {{ tag.description }}
                 </td>
+                <td><a href="{{ path('blog_edit_tag', {'id':tag.id}) }}" class="btn btn-primary btn-edit"><span class="glyphicon glyphicon-edit"></span> Editar</a> </td>
                 <td><a href="#" data-tag-url="{{ path('blog_delete_tag', {'id':tag.id}) }}" data-tag-id="{{ tag.id }}" data-toggle="modal" data-target="#myConfirmtModal" class="btn btn-danger btn-delete"><span class="glyphicon glyphicon-trash"></span> Eliminar</a> </td>
             </tr>
         {% endfor %}
