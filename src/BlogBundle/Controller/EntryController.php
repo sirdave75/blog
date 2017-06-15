@@ -2,7 +2,7 @@
 
 namespace BlogBundle\Controller;
 
-use BlogBundle\BlogBundle;
+
 use BlogBundle\Entity\Entry;
 use BlogBundle\Form\EntryType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -17,6 +17,14 @@ class EntryController extends Controller
         $this->session = new Session();
     }
 
+    public function indexAction(){
+
+        $em = $this->getDoctrine()->getManager();
+        $entry_repo = $em->getRepository("BlogBundle:Entry");
+        $entries = $entry_repo->findAll();
+
+        return $this->render("BlogBundle:Entry:index.html.twig",["entries"=>$entries]);
+    }
 
     public function addAction(Request $request)
     {
@@ -30,6 +38,9 @@ class EntryController extends Controller
 
                 $em = $this->getDoctrine()->getManager();
                 $category_repo = $em->getRepository("BlogBundle:Category");
+
+                $entry_repo = $em ->getRepository("BlogBundle:Entry");
+
                 $entry = new Entry();
                 $entry->setTitle($form->get("title")->getData());
                 $entry->setContent($form->get("content")->getData());
@@ -55,6 +66,12 @@ class EntryController extends Controller
 
                 $flush  = $em->flush();
 
+                $entry_repo->saveEntryTags(
+                    $form->get("tags")->getData(),
+                    $entry,
+                    $category,
+                    $user
+                );
                 if($flush == null){
                     $status = "La categoria se ha creado correctamente";
                     $class_alert = "success";
@@ -74,7 +91,7 @@ class EntryController extends Controller
             //mensajes de respuesta
            $this->session->getFlashBag()->add("status",$status);
            $this->session->getFlashBag()->add("class_alert",$class_alert);
-           //return $this->redirectToRoute("blog_index_entry");
+           return $this->redirectToRoute("blog_homepage");
         }
         return $this->render(
             "BlogBundle:Entry:add.html.twig",

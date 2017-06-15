@@ -1,0 +1,35 @@
+{% extends "BlogBundle::layout.html.twig" %}
+{% block content %}
+    <div class="container">
+    {% set alert_class = "alert-success" %}
+    {% for class_alert in app.session.flashbag().get('class_alert') %}
+        {% if class_alert == "danger" %}
+            {% set alert_class = "alert-danger" %}
+        {% endif %}
+        {% for message in app.session.flashbag().get('status') %}
+            <div class="alert {{ alert_class }}">{{ message }}</div>
+        {% endfor %}
+    {% endfor %}
+    {%  for entry in entries %}
+        <img src="{{ asset('uploads/'~entry.image) }}" class="img-responsive">
+        <h2>{{ entry.title }}</h2>
+        <p>
+            {{ entry.category.name }}
+        </p>
+        <p>
+            {%  set etiqueta = ""%}
+            {% for et in entry.entryTag %}
+
+                {%  set etiqueta  =  etiqueta ~  et.tag.name ~ " | "%}
+
+
+
+
+            {% endfor %}
+            {{ etiqueta[:-2]}}
+        </p>
+    <hr>
+    {% endfor %}
+    </div>
+
+{% endblock %}

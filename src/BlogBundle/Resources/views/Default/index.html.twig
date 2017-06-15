@@ -1,4 +1,14 @@
 {% extends "BlogBundle::layout.html.twig" %}
 {% block content %}
+    {% set alert_class = "alert-success" %}
+    {% for class_alert in app.session.flashbag().get('class_alert') %}
+        {% if class_alert == "danger" %}
+            {% set alert_class = "alert-danger" %}
+        {% endif %}
+        {% for message in app.session.flashbag().get('status') %}
+            <div class="alert {{ alert_class }}">{{ message }}</div>
+        {% endfor %}
+    {% endfor %}
+
 
 {% endblock %}
