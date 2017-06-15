@@ -44,4 +44,9 @@ blog_delete_categoria:
     path:     /catgegorias/delete/{id}
     defaults: { _controller: BlogBundle:Category:delete}
 
+blog_add_entry:
+    path:     /entries/add
+    defaults: { _controller: BlogBundle:Entry:add}
+
+
 
