@@ -1,0 +1,82 @@
+{% extends "BlogBundle::layout.html.twig" %}
+{% block content %}
+<div class="container">
+    <h2>Listado de etiquetas</h2>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6">
+            <a href="{{ path("blog_add_categoria") }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Añadir categorias</a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6">
+            {% set alert_class = "alert-success" %}
+            {% for class_alert in app.session.flashbag().get('class_alert') %}
+                {% if class_alert == "danger" %}
+                    {% set alert_class = "alert-danger" %}
+                {% endif %}
+                {% for message in app.session.flashbag().get('status') %}
+                    <div class="alert {{ alert_class }}">{{ message }}</div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+        {%  for categoria in categorias %}
+            <tr>
+                <td>
+                    {{ categoria.name }}
+                </td>
+                <td>
+                    {{ categoria.description }}
+                </td>
+                <td><a href="{{ path('blog_edit_categoria', {'id':categoria.id}) }}" class="btn btn-primary btn-edit"><span class="glyphicon glyphicon-edit"></span> Editar</a> </td>
+                <td><a href="#" data-categoria-url="{{ path('blog_delete_categoria', {'id':categoria.id}) }}" data-categoria-id="{{ categoria.id }}" data-toggle="modal" data-target="#myConfirmtModal" class="btn btn-danger btn-delete"><span class="glyphicon glyphicon-trash"></span> Eliminar</a> </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+</div>
+    <div id="myConfirmtModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <p>Se va a eliminar una categoria. ¿Desea continuar?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <a href="#" id="btn-delete" type="button" class="btn btn-primary">Eliminar</a>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock %}
+
+{% block javascripts %}
+   <script>
+    $(document).ready(function(){
+        $('.btn-delete').on('click',function(){
+            var url = $(this).attr('data-categoria-url');
+            $('#btn-delete').attr('href',url);
+            console.log(id);
+        });
+    });
+   </script>
+{% endblock %}

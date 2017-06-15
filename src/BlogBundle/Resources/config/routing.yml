@@ -24,3 +24,20 @@ blog_delete_tag:
     path:     /tags/delete/{id}
     defaults: { _controller: BlogBundle:Tag:delete}
 
+blog_index_categoria:
+    path:     /categorias
+    defaults: { _controller: BlogBundle:Category:index}
+
+blog_add_categoria:
+    path:     /categorias/add
+    defaults: { _controller: BlogBundle:Category:add}
+
+blog_edit_categoria:
+    path:     /categorias/edit/{id}
+    defaults: { _controller: BlogBundle:Category:edit}
+
+blog_delete_categoria:
+    path:     /catgegorias/delete/{id}
+    defaults: { _controller: BlogBundle:Category:delete}
+
+
