@@ -47,7 +47,9 @@ class EntryType extends AbstractType
                 "label" => "Imagen",
                 "attr" => [
                             "class" => "form-control"
-                          ]
+                          ],
+                "required"    => false,
+                "data_class" => null
             ])
             ->add('category',EntityType::class,[
                 "label" => "Categorias",

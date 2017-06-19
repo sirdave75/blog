@@ -13,6 +13,7 @@ use BlogBundle\BlogBundle;
 use BlogBundle\Entity\EntryTag;
 use Doctrine\ORM\EntityRepository;
 use BlogBundle\Entity\Tag;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class EntryRepository extends EntityRepository{
 
@@ -47,5 +48,18 @@ class EntryRepository extends EntityRepository{
         }
         $flush = $em -> flush();
         return $flush;
+    }
+
+    public function getPaginateEntries($pagesSize=5,$currentPage=1){
+        //consuta con DQL
+        $em = $this->getEntityManager();
+        $dql = "SELECT e from BlogBundle\Entity\Entry e ORDER BY e.id DESC";
+        $query = $em -> createQuery($dql)
+                ->setFirstResult($pagesSize*($currentPage-1))
+                ->setMaxResults($pagesSize);
+
+        $paginator = new Paginator($query,$fecthJoinColllection = true);
+
+        return $paginator;
     }
 }

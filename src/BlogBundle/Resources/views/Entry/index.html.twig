@@ -1,4 +1,8 @@
 {% extends "BlogBundle::layout.html.twig" %}
+{% block menu %}
+    {#{% include "@Blog/Category/menu.categories.html.twig" %}#}
+    {% include "BlogBundle:Category:menu.categories.html.twig" with {'categories': categories} %}
+{% endblock %}
 {% block content %}
     <div class="container">
     {% set alert_class = "alert-success" %}
@@ -17,19 +21,38 @@
             {{ entry.category.name }}
         </p>
         <p>
+            Autor: {{ entry.user.name }}
+        </p>
+        <p>
             {%  set etiqueta = ""%}
             {% for et in entry.entryTag %}
 
                 {%  set etiqueta  =  etiqueta ~  et.tag.name ~ " | "%}
 
-
-
-
             {% endfor %}
             {{ etiqueta[:-2]}}
         </p>
+        {% if (app.user.id is defined) and  (entry.user.id == app.user.id) %}
+        <p>
+            <a href="{{ path('blog_delete_entry',{"id":entry.id}) }}" class="btn btn-danger">Eliminar</a>
+            <a href="{{ path('blog_edit_entry',{"id":entry.id}) }}" class="btn btn-warning">Editar</a>
+        </p>
+        {% endif %}
     <hr>
     {% endfor %}
+
+        <ul class="pagination">
+           {% if page>1 %}
+            <li><a href="{{ path('blog_homepage', {"page": page-1})  }}">&laquo;</a> </li>
+            {% endif %}
+            {% for i in 1..pagesCount %}
+                <li><a href="{{path('blog_homepage', {"page":i})  }}">{{ i }}</a></li>
+            {% endfor %}
+            {% if page<pagesCount  %}
+            <li><a href="{{ path('blog_homepage', {"page": page+1})  }}">&raquo;</a> </li>
+            {% endif %}
+
+        </ul>
     </div>
 
 {% endblock %}
